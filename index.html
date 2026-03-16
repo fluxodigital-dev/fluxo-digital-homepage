@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluxo Digital - Transforme seu Instagram em uma Máquina de Clientes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: '#0b0f2a',
+                        primary: '#001c55',
+                        accent: '#5f00ff',
+                        highlight: '#ffd000',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'gradient-x': {
+                            '0%, 100%': { 'background-position': '0% 50%' },
+                            '50%': { 'background-position': '100% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f2a;
+            color: white;
+            overflow-x: hidden;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #5f00ff 0%, #ffd000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0b0f2a 0%, #001c55 50%, #5f00ff20 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(95, 0, 255, 0.3);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #5f00ff 0%, #001c55 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(95, 0, 255, 0.5);
+        }
+        
+        .btn-highlight {
+            background: linear-gradient(135deg, #ffd000 0%, #ffaa00 100%);
+            color: #0b0f2a;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-highlight:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 208, 0, 0.4);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .kanban-card {
+            background: rgba(95, 0, 255, 0.1);
+            border-left: 3px solid #5f00ff;
+        }
+        
+        .kanban-card.highlight {
+            background: rgba(255, 208, 0, 0.1);
+            border-left-color: #ffd000;
+        }
+        
+        .flow-line {
+            position: relative;
+        }
+        
+        .flow-line::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, #5f00ff, #ffd000);
+            transform: translateX(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .flow-line::after {
+                display: none;
+            }
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+        }
+        
+        .noise-bg {
+            position: relative;
+        }
+        
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .grid-pattern {
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-effect border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-br from-accent to-highlight rounded-lg flex items-center justify-center">
+                        <i class="fas fa-bolt text-white text-xl"></i>
+                    </div>
+                    <span class="text-2xl font-bold tracking-tight">Fluxo<span class="text-highlight">Digital</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#como-funciona" class="text-gray-300 hover:text-white transition">Como Funciona</a>
+                    <a href="#crm" class="text-gray-300 hover:text-white transition">CRM</a>
+                    <a href="#planos" class="text-gray-300 hover:text-white transition">Planos</a>
+                    <a href="#faq" class="text-gray-300 hover:text-white transition">FAQ</a>
+                    <a href="https://wa.me/5599984786225?text=Olá,%20quero%20automatizar%20meu%20Instagram." target="_blank" class="btn-highlight px-6 py-3 rounded-full font-semibold text-sm">
+                        Falar no WhatsApp
+                    </a>
+                </div>
+                
+                <button class="md:hidden text-white text-2xl" onclick="toggleMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-effect border-t border-white/10">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#como-funciona" class="block px-3 py-2 text-gray-300 hover:text-white">Como Funciona</a>
+                <a href="#crm" class="block px-3 py-2 text-gray-300 hover:text-white">CRM</a>
+                <a href="#planos" class="block px-3 py-2 text-gray-300 hover:text-white">Planos</a>
+                <a href="#faq" class="block px-3 py-2 text-gray-300 hover:text-white">FAQ</a>
+                <a href="https://wa.me/5599984786225?text=Olá,%20quero%20automatizar%20meu%20Instagram." class="block btn-highlight px-6 py-3 rounded-full font-semibold text-center mt-4">
+                    Falar no WhatsApp
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden hero-gradient grid-pattern noise-bg">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-accent/30 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-highlight/20 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="scroll-reveal">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-accent/20 border border-accent/30 text-accent mb-6">
+                        <span class="w-2 h-2 bg-highlight rounded-full mr-2 animate-pulse"></span>
+                        <span class="text-sm font-medium">Automação Inteligente para Instagram</span>
+                    </div>
+                    
+                    <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                        Transforme seu <span class="gradient-text">Instagram</span> em uma máquina automática de clientes
+                    </h1>
+                    
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed max-w-2xl">
+                        Automação inteligente que captura leads do Instagram, organiza tudo em um CRM visual e ajuda sua equipe a fechar mais vendas.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://wa.me/5599984786225?text=Olá,%20quero%20automatizar%20meu%20Instagram." target="_blank" class="btn-highlight px-8 py-4 rounded-full font-bold text-lg text-center flex items-center justify-center gap-2 group">
+                            Quero automatizar meu Instagram
+                            <i class="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                        <a href="#como-funciona" class="glass-effect px-8 py-4 rounded-full font-semibold text-lg text-center hover:bg-white/10 transition">
+                            Ver como funciona
+                        </a>
+                    </div>
+                    
+                    <div class="mt-12 flex items-center gap-6 text-sm text-gray-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-highlight"></i>
+                            <span>Setup em 24h</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-highlight"></i>
+                            <span>Suporte humano</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-highlight"></i>
+                            <span>Sem contrato</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative scroll-reveal">
+                    <div class="relative z-10 animate-float">
+                        <img src="https://kimi-web-img.moonshot.cn/img/blog.omnichat.ai/26c022238cb1669fff04a7e214e39d559c73795d.webp" alt="Instagram Automation" class="rounded-2xl shadow-2xl border border-white/10 w-full">
+                        
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-6 -right-6 glass-effect p-4 rounded-xl border border-highlight/30 animate-pulse-slow">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-robot text-green-400"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">Respostas Automáticas</p>
+                                    <p class="font-bold text-green-400">Ativo 24/7</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute -bottom-6 -left-6 glass-effect p-4 rounded-xl border border-accent/30 animate-pulse-slow" style="animation-delay: 1s;">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-accent/20 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-users text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">Leads Capturados</p>
+                                    <p class="font-bold text-highlight">+127 hoje</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Background Decoration -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-accent/20 to-highlight/20 rounded-2xl blur-2xl -z-10 transform rotate-3"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dark to-transparent"></div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Você está <span class="text-red-400">perdendo clientes</span> no Instagram?</h2>
+                <p class="text-xl text-gray-400">Identifique se esses problemas estão afetando seu negócio</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-effect p-8 rounded-2xl card-hover scroll-reveal border-l-4 border-red-500">
+                    <div class="w-14 h-14 bg-red-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-keyboard text-red-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Responder manualmente</h3>
+                    <p class="text-gray-400">Perde horas respondendo comentários e directs um por um, todos os dias.</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl card-hover scroll-reveal border-l-4 border-orange-500" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-orange-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-envelope-open-text text-orange-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Perder leads no Direct</h3>
+                    <p class="text-gray-400">Mensagens ficam perdidas na caixa de entrada e oportunidades se perdem.</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl card-hover scroll-reveal border-l-4 border-yellow-500" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-yellow-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-question-circle text-yellow-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Não saber a origem</h3>
+                    <p class="text-gray-400">Sem controle de onde vêm seus clientes e quais posts geram mais vendas.</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl card-hover scroll-reveal border-l-4 border-purple-500" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 bg-purple-500/20 rounded-xl flex items-center justify-center mb-4">
+                        <i class="fas fa-folder-open text-purple-400 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Falta de organização</h3>
+                    <p class="text-gray-400">Contatos espalhados em planilhas, anotações e apps diferentes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="como-funciona" class="py-24 relative bg-primary/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-20 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Como transformamos seu Instagram em um <span class="gradient-text">sistema automático de vendas</span></h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                <!-- Connecting Line -->
+                <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-accent via-highlight to-accent transform -translate-y-1/2 z-0"></div>
+                
+                <div class="relative z-10 scroll-reveal">
+                    <div class="glass-effect p-8 rounded-2xl text-center card-hover relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="w-20 h-20 bg-accent rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl font-bold shadow-lg shadow-accent/50">1</div>
+                        <div class="mb-4 text-4xl text-highlight"><i class="fas fa-magic"></i></div>
+                        <h3 class="text-2xl font-bold mb-4">Criativos que fazem o cliente clicar</h3>
+                        <p class="text-gray-300">Conteúdos estratégicos que geram comentários e mensagens automaticamente.</p>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 scroll-reveal" style="transition-delay: 150ms;">
+                    <div class="glass-effect p-8 rounded-2xl text-center card-hover relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-highlight/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="w-20 h-20 bg-highlight rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl font-bold text-dark shadow-lg shadow-highlight/50">2</div>
+                        <div class="mb-4 text-4xl text-accent"><i class="fas fa-robot"></i></div>
+                        <h3 class="text-2xl font-bold mb-4">Atendimento automático personalizado</h3>
+                        <p class="text-gray-300">Seu Instagram responde automaticamente comentários e directs com mensagens humanizadas.</p>
+                    </div>
+                </div>
+                
+                <div class="relative z-10 scroll-reveal" style="transition-delay: 300ms;">
+                    <div class="glass-effect p-8 rounded-2xl text-center card-hover relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <div class="w-20 h-20 bg-accent rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl font-bold shadow-lg shadow-accent/50">3</div>
+                        <div class="mb-4 text-4xl text-highlight"><i class="fas fa-columns"></i></div>
+                        <h3 class="text-2xl font-bold mb-4">Leads organizados no CRM</h3>
+                        <p class="text-gray-300">Cada contato interessado entra automaticamente no sistema Kanban visual.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instagram Automation -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 bg-accent/5"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="scroll-reveal">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-accent/20 border border-accent/30 text-accent mb-6">
+                        <i class="fab fa-instagram mr-2"></i>
+                        <span class="text-sm font-medium">Automação Instagram</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Seu Instagram trabalhando <span class="gradient-text">24 horas por dia</span></h2>
+                    <p class="text-xl text-gray-300 mb-8">Nunca mais perca uma oportunidade de negócio por falta de tempo para responder.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition">
+                                <i class="fas fa-reply text-accent text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Resposta Automática</h4>
+                                <p class="text-gray-400">Responde comentários e directs instantaneamente com mensagens personalizadas.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-highlight/20 flex items-center justify-center flex-shrink-0 group-hover:bg-highlight/30 transition">
+                                <i class="fas fa-user-plus text-highlight text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Captura de Leads</h4>
+                                <p class="text-gray-400">Identifica e captura automaticamente dados de contato de potenciais clientes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center flex-shrink-0 group-hover:bg-accent/30 transition">
+                                <i class="fas fa-filter text-accent text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Qualificação de Contatos</h4>
+                                <p class="text-gray-400">Classifica leads por temperatura (frio, morno, quente) automaticamente.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-4 group">
+                            <div class="w-12 h-12 rounded-xl bg-highlight/20 flex items-center justify-center flex-shrink-0 group-hover:bg-highlight/30 transition">
+                                <i class="fas fa-plug text-highlight text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Integração com CRM</h4>
+                                <p class="text-gray-400">Envia todos os dados diretamente para seu painel de gestão em tempo real.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="https://wa.me/5599984786225?text=Olá,%20quero%20automatizar%20meu%20Instagram." target="_blank" class="inline-flex items-center gap-2 mt-10 btn-primary px-8 py-4 rounded-full font-bold text-lg">
+                        Começar automação agora
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                
+                <div class="relative scroll-reveal">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.streebo.com/392bccb9b89d812c8f8d9b9d026083104bd42cb7.png" alt="Instagram Chatbot" class="rounded-2xl shadow-2xl border border-white/10 w-full">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-accent/20 to-highlight/20 rounded-2xl blur-2xl -z-10"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CRM Section -->
+    <section id="crm" class="py-24 relative bg-primary/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">CRM automático para seus <span class="gradient-text">leads</span></h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">Todos os leads capturados são organizados automaticamente em um CRM visual estilo Kanban. Sua equipe acompanha cada cliente desde o primeiro contato até o fechamento da venda.</p>
+            </div>
+            
+            <div class="glass-effect rounded-3xl p-8 border border-white/10 overflow-x-auto scroll-reveal">
+                <div class="min-w-[800px] grid grid-cols-4 gap-6">
+                    <!-- Column 1 -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-lg flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-gray-400"></span>
+                                Novos Leads
+                            </h4>
+                            <span class="bg-gray-700 px-2 py-1 rounded text-sm">12</span>
+                        </div>
+                        <div class="kanban-card p-4 rounded-xl">
+                            <div class="flex items-center gap-2 mb-2">
+                                <img src="https://ui-avatars.com/api/?name=Maria+Silva&background=random" class="w-8 h-8 rounded-full">
+                                <span class="text-sm font-medium">Maria Silva</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Interessada em consultoria</p>
+                            <div class="flex gap-2">
+                                <span class="text-xs bg-accent/20 text-accent px-2 py-1 rounded">Instagram</span>
+                            </div>
+                        </div>
+                        <div class="kanban-card p-4 rounded-xl">
+                            <div class="flex items-center gap-2 mb-2">
+                                <img src="https://ui-avatars.com/api/?name=Joao+Santos&background=random" class="w-8 h-8 rounded-full">
+                                <span class="text-sm font-medium">João Santos</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Pediu orçamento</p>
+                            <div class="flex gap-2">
+                                <span class="text-xs bg-highlight/20 text-highlight px-2 py-1 rounded">Quente</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2 -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-lg flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-blue-400"></span>
+                                Em Contato
+                            </h4>
+                            <span class="bg-blue-900/50 px-2 py-1 rounded text-sm">8</span>
+                        </div>
+                        <div class="kanban-card p-4 rounded-xl border-l-blue-400">
+                            <div class="flex items-center gap-2 mb-2">
+                                <img src="https://ui-avatars.com/api/?name=Ana+Paula&background=random" class="w-8 h-8 rounded-full">
+                                <span class="text-sm font-medium">Ana Paula</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Aguardando proposta</p>
+                            <div class="flex gap-2">
+                                <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Direct</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 3 -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-lg flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-highlight"></span>
+                                Negociação
+                            </h4>
+                            <span class="bg-yellow-900/50 px-2 py-1 rounded text-sm text-highlight">5</span>
+                        </div>
+                        <div class="kanban-card highlight p-4 rounded-xl">
+                            <div class="flex items-center gap-2 mb-2">
+                                <img src="https://ui-avatars.com/api/?name=Carlos+Eduardo&background=random" class="w-8 h-8 rounded-full">
+                                <span class="text-sm font-medium">Carlos Eduardo</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Revisando contrato</p>
+                            <div class="flex gap-2">
+                                <span class="text-xs bg-highlight/20 text-highlight px-2 py-1 rounded">Prioridade</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 4 -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-lg flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                                Fechados
+                            </h4>
+                            <span class="bg-green-900/50 px-2 py-1 rounded text-sm text-green-400">23</span>
+                        </div>
+                        <div class="kanban-card p-4 rounded-xl border-l-green-400 bg-green-500/5">
+                            <div class="flex items-center gap-2 mb-2">
+                                <img src="https://ui-avatars.com/api/?name=Fernanda+Lima&background=random" class="w-8 h-8 rounded-full">
+                                <span class="text-sm font-medium">Fernanda Lima</span>
+                            </div>
+                            <p class="text-sm text-gray-400 mb-2">Venda concluída ✓</p>
+                            <div class="flex gap-2">
+                                <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">R$ 2.497</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lead Generation -->
+    <section class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1 relative scroll-reveal">
+                    <img src="https://kimi-web-img.moonshot.cn/img/mikekhorev.com/c0789bfa774251d4654dcff46813b863784fd4a6.png" alt="Marketing Automation Workflow" class="rounded-2xl shadow-2xl border border-white/10 w-full">
+                    <div class="absolute -inset-4 bg-gradient-to-r from-highlight/20 to-accent/20 rounded-2xl blur-2xl -z-10"></div>
+                </div>
+                
+                <div class="order-1 lg:order-2 scroll-reveal">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-8">Geração de Leads <span class="gradient-text">Inteligente</span></h2>
+                    
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-6 group">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-accent to-primary flex items-center justify-center text-2xl font-bold shadow-lg shadow-accent/30 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-comment-dots text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-1">Mais Comentários</h3>
+                                <p class="text-gray-400">Estratégias de copy que geram engajamento orgânico massivo.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-6 group">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-highlight to-orange-500 flex items-center justify-center text-2xl font-bold shadow-lg shadow-highlight/30 group-hover:scale-110 transition-transform text-dark">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-1">Mais Mensagens</h3>
+                                <p class="text-gray-400">Call-to-actions estratégicos que movem o cliente para o direct.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-6 group">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-2xl font-bold shadow-lg shadow-green-500/30 group-hover:scale-110 transition-transform">
+                                <i class="fas fa-handshake text-white"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-bold mb-1">Mais Clientes</h3>
+                                <p class="text-gray-400">Criativos estratégicos + automação geram mais oportunidades de vendas.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Smart Funnel -->
+    <section class="py-24 relative bg-primary/30 overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Funil Inteligente <span class="gradient-text">Automatizado</span></h2>
+                <p class="text-xl text-gray-300">Veja como o fluxo completo funciona automaticamente</p>
+            </div>
+            
+            <div class="relative">
+                <div class="space-y-8">
+                    <div class="flex flex-col md:flex-row items-center gap-6 scroll-reveal flow-line">
+                        <div class="w-full md:w-1/3 glass-effect p-6 rounded-2xl text-center border border-pink-500/30 hover:border-pink-500 transition">
+                            <i class="fab fa-instagram text-4xl text-pink-500 mb-2"></i>
+                            <h4 class="font-bold text-lg">Instagram</h4>
+                            <p class="text-sm text-gray-400">Cliente interage com post ou story</p>
+                        </div>
+                        <div class="hidden md:block text-highlight text-2xl">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="md:hidden text-highlight text-2xl rotate-90">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="w-full md:w-2/3 glass-effect p-6 rounded-2xl border-l-4 border-accent">
+                            <h4 class="font-bold text-lg mb-2">Automação de Atendimento</h4>
+                            <p class="text-gray-300">Bot responde instantaneamente com mensagem personalizada e qualifica o lead</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-6 scroll-reveal flow-line">
+                        <div class="w-full md:w-1/3 glass-effect p-6 rounded-2xl text-center border border-accent/30 hover:border-accent transition">
+                            <i class="fas fa-user-tag text-4xl text-accent mb-2"></i>
+                            <h4 class="font-bold text-lg">Captura de Lead</h4>
+                            <p class="text-sm text-gray-400">Dados salvos automaticamente</p>
+                        </div>
+                        <div class="hidden md:block text-highlight text-2xl">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="md:hidden text-highlight text-2xl rotate-90">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="w-full md:w-2/3 glass-effect p-6 rounded-2xl border-l-4 border-highlight">
+                            <h4 class="font-bold text-lg mb-2">CRM Kanban</h4>
+                            <p class="text-gray-300">Lead organizado na coluna correta com tags e prioridades</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row items-center gap-6 scroll-reveal">
+                        <div class="w-full md:w-1/3 glass-effect p-6 rounded-2xl text-center border border-green-500/30 hover:border-green-500 transition">
+                            <i class="fas fa-headset text-4xl text-green-500 mb-2"></i>
+                            <h4 class="font-bold text-lg">Equipe de Vendas</h4>
+                            <p class="text-sm text-gray-400">Recebe notificação instantânea</p>
+                        </div>
+                        <div class="hidden md:block text-highlight text-2xl">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="md:hidden text-highlight text-2xl rotate-90">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                        <div class="w-full md:w-2/3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 p-6 rounded-2xl border border-green-500/50">
+                            <h4 class="font-bold text-lg mb-2 text-green-400">Cliente Fechado ✓</h4>
+                            <p class="text-gray-300">Processo completo sem perder nenhuma oportunidade</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal group">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-accent/20 flex items-center justify-center group-hover:bg-accent/30 transition">
+                        <i class="fas fa-clock text-3xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Economia de Tempo</h3>
+                    <p class="text-gray-400">Elimine tarefas repetitivas e foque no que realmente importa.</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal group" style="transition-delay: 100ms;">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-highlight/20 flex items-center justify-center group-hover:bg-highlight/30 transition">
+                        <i class="fas fa-chart-line text-3xl text-highlight"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Mais Organização</h3>
+                    <p class="text-gray-400">Todos os leads em um lugar só, visual e intuitivo.</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal group" style="transition-delay: 200ms;">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-green-500/20 flex items-center justify-center group-hover:bg-green-500/30 transition">
+                        <i class="fas fa-dollar-sign text-3xl text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Aumento de Vendas</h3>
+                    <p class="text-gray-400">Mais leads qualificados = mais oportunidades de fechar.</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal group" style="transition-delay: 300ms;">
+                    <div class="w-20 h-20 mx-auto mb-6 rounded-2xl bg-purple-500/20 flex items-center justify-center group-hover:bg-purple-500/30 transition">
+                        <i class="fas fa-infinity text-3xl text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Atendimento 24h</h3>
+                    <p class="text-gray-400">Seu negócio nunca dorme, responde até de madrugada.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="planos" class="py-24 relative bg-primary/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Escolha seu <span class="gradient-text">plano</span></h2>
+                <p class="text-xl text-gray-300">Soluções para cada etapa do seu negócio</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Plan 1 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover scroll-reveal border border-white/10 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-2xl -mr-16 -mt-16"></div>
+                    <h3 class="text-2xl font-bold mb-2">Diagnóstico Instagram</h3>
+                    <p class="text-gray-400 mb-6">Análise completa do perfil</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$97</span>
+                        <span class="text-gray-400">/único</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-300">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-accent"></i>
+                            <span>Análise de perfil completa</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-accent"></i>
+                            <span>Relatório de oportunidades</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-accent"></i>
+                            <span>Plano de ação personalizado</span>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/5599984786225?text=Olá,%20quero%20o%20Diagnóstico%20Instagram%20de%20R$97" target="_blank" class="block w-full py-4 rounded-full border-2 border-accent text-accent font-bold text-center hover:bg-accent hover:text-white transition">
+                        Quero diagnóstico
+                    </a>
+                </div>
+                
+                <!-- Plan 2 - Featured -->
+                <div class="glass-effect rounded-3xl p-8 card-hover scroll-reveal border-2 border-highlight relative overflow-hidden transform md:scale-105 bg-gradient-to-b from-highlight/10 to-transparent" style="transition-delay: 150ms;">
+                    <div class="absolute top-0 left-0 right-0 bg-highlight text-dark text-center py-1 text-sm font-bold">
+                        MAIS POPULAR
+                    </div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-highlight/20 rounded-full blur-2xl -mr-16 -mt-16"></div>
+                    <h3 class="text-2xl font-bold mb-2 mt-4">Automação Instagram</h3>
+                    <p class="text-gray-400 mb-6">Automação completa + CRM</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$497</span>
+                        <span class="text-gray-400">/mês</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-300">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-highlight"></i>
+                            <span>Tudo do diagnóstico</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-highlight"></i>
+                            <span>Bot de atendimento 24h</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-highlight"></i>
+                            <span>CRM Kanban ilimitado</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-highlight"></i>
+                            <span>Captura automática de leads</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-highlight"></i>
+                            <span>Suporte prioritário</span>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/5599984786225?text=Olá,%20quero%20a%20Automação%20Instagram%20completa%20de%20R$497" target="_blank" class="block w-full py-4 rounded-full btn-highlight text-dark font-bold text-center">
+                        Quero automatizar
+                    </a>
+                </div>
+                
+                <!-- Plan 3 -->
+                <div class="glass-effect rounded-3xl p-8 card-hover scroll-reveal border border-white/10 relative overflow-hidden" style="transition-delay: 300ms;">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl -mr-16 -mt-16"></div>
+                    <h3 class="text-2xl font-bold mb-2">Gestão Completa</h3>
+                    <p class="text-gray-400 mb-6">Automação + funil + tráfego</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$1.500</span>
+                        <span class="text-gray-400">/mês</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 text-gray-300">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-purple-400"></i>
+                            <span>Tudo da automação</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-purple-400"></i>
+                            <span>Gestão de tráfego pago</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-purple-400"></i>
+                            <span>Criação de conteúdo</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-purple-400"></i>
+                            <span>Consultor dedicado</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check text-purple-400"></i>
+                            <span>Relatórios semanais</span>
+                        </li>
+                    </ul>
+                    <a href="https://wa.me/5599984786225?text=Olá,%20quero%20a%20Gestão%20Completa%20a%20partir%20de%20R$1500" target="_blank" class="block w-full py-4 rounded-full border-2 border-purple-500 text-purple-400 font-bold text-center hover:bg-purple-500 hover:text-white transition">
+                        Falar com consultor
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Resultados que <span class="gradient-text">falam por si</span></h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal border-t-4 border-accent">
+                    <div class="text-5xl font-bold text-accent mb-2 counter" data-target="300">+300%</div>
+                    <p class="text-xl font-semibold mb-2">Mais Leads</p>
+                    <p class="text-gray-400">Aumento médio na captura de leads qualificados</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal border-t-4 border-highlight" style="transition-delay: 150ms;">
+                    <div class="text-5xl font-bold text-highlight mb-2 counter" data-target="500">+500%</div>
+                    <p class="text-xl font-semibold mb-2">Mais Mensagens</p>
+                    <p class="text-gray-400">Engajamento automático no direct</p>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl text-center card-hover scroll-reveal border-t-4 border-green-500" style="transition-delay: 300ms;">
+                    <div class="text-5xl font-bold text-green-400 mb-2 counter" data-target="150">+150%</div>
+                    <p class="text-xl font-semibold mb-2">Mais Clientes</p>
+                    <p class="text-gray-400">Conversão de leads em vendas reais</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 relative bg-primary/20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Perguntas <span class="gradient-text">Frequentes</span></h2>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="glass-effect rounded-2xl overflow-hidden scroll-reveal">
+                    <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold">A automação funciona para qualquer Instagram?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-8 pb-6 hidden text-gray-300">
+                        Sim, funciona para empresas de qualquer nicho. Seja você um e-commerce, prestador de serviços, consultor ou loja física, a automação se adapta ao seu tipo de negócio e público-alvo.
+                    </div>
+                </div>
+                
+                <div class="glass-effect rounded-2xl overflow-hidden scroll-reveal" style="transition-delay: 100ms;">
+                    <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold">Preciso instalar algum aplicativo?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-8 pb-6 hidden text-gray-300">
+                        Não, a equipe Fluxo Digital configura tudo para você. Não é necessário instalar nada no seu celular ou computador. Fazemos toda a integração remota e você recebe acesso ao painel web.
+                    </div>
+                </div>
+                
+                <div class="glass-effect rounded-2xl overflow-hidden scroll-reveal" style="transition-delay: 200ms;">
+                    <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold">Quanto tempo leva para começar a funcionar?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-8 pb-6 hidden text-gray-300">
+                        O setup é feito em até 24 horas após a contratação. Assim que aprovamos os fluxos de conversa junto com você, a automação já entra no ar imediatamente.
+                    </div>
+                </div>
+                
+                <div class="glass-effect rounded-2xl overflow-hidden scroll-reveal" style="transition-delay: 300ms;">
+                    <button class="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold">Posso personalizar as mensagens automáticas?</span>
+                        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+                    </button>
+                    <div class="px-8 pb-6 hidden text-gray-300">
+                        Absolutamente! Trabalhamos junto com você para criar mensagens que tenham a voz da sua marca. Você pode alterar o tom, adicionar emojis, links e até imagens nas respostas automáticas.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-accent/20 via-primary/40 to-highlight/20"></div>
+        <div class="absolute inset-0 grid-pattern opacity-30"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center scroll-reveal">
+            <h2 class="text-5xl md:text-6xl font-bold mb-8">Solicite um <span class="gradient-text">diagnóstico gratuito</span> do seu Instagram</h2>
+            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">Descubra oportunidades ocultas no seu perfil e veja como a automação pode transformar seus resultados em 30 dias.</p>
+            
+            <a href="https://wa.me/5599984786225?text=Olá,%20quero%20automatizar%20meu%20Instagram." target="_blank" class="inline-flex items-center gap-3 btn-highlight px-12 py-6 rounded-full font-bold text-xl text-dark shadow-2xl shadow-highlight/30 hover:shadow-highlight/50 transform hover:scale-105 transition-all">
+                <i class="fab fa-whatsapp text-2xl"></i>
+                Falar no WhatsApp
+            </a>
+            
+            <p class="mt-6 text-gray-400">Resposta em até 15 minutos • Atendimento humano</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-accent to-highlight rounded-lg flex items-center justify-center">
+                            <i class="fas fa-bolt text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-bold">Fluxo<span class="text-highlight">Digital</span></span>
+                    </div>
+                    <p class="text-gray-400 mb-4 max-w-sm">Transformando Instagrams comuns em máquinas automáticas de vendas. Automação inteligente para empresas que querem crescer.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-accent transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-green-500 transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-blue-500 transition">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Links Rápidos</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#como-funciona" class="hover:text-white transition">Como Funciona</a></li>
+                        <li><a href="#crm" class="hover:text-white transition">CRM</a></li>
+                        <li><a href="#planos" class="hover:text-white transition">Planos</a></li>
+                        <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Contato</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fab fa-whatsapp text-green-400"></i>
+                            <span>(99) 98478-6225</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fas fa-envelope text-accent"></i>
+                            <span>contato@fluxodigital.com</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 text-center text-gray-500 text-sm">
+                <p>&copy; 2024 Fluxo Digital. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5599984786225?text=Olá,%20quero%20automatizar%20meu%20Instagram." target="_blank" class="whatsapp-float w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-white text-3xl shadow-2xl shadow-green-500/40 hover:scale-110 transition-transform z-50">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Back to Top Button -->
+    <button onclick="scrollToTop()" class="back-to-top w-12 h-12 bg-accent rounded-full flex items-center justify-center text-white shadow-lg hover:bg-accent/80 transition z-40">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // FAQ Toggle
+        function toggleFaq(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            content.classList.toggle('hidden');
+            icon.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Animate counters
+                    if (entry.target.querySelector('.counter')) {
+                        animateCounter(entry.target.querySelector('.counter'));
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach((el) => observer.observe(el));
+
+        // Counter Animation
+        function animateCounter(counter) {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    counter.textContent = '+' + target + '%';
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = '+' + Math.floor(current) + '%';
+                }
+            }, 16);
+        }
+
+        // Back to Top Button Visibility
+        window.addEventListener('scroll', () => {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu if open
+                    document.getElementById('mobile-menu').classList.add('hidden');
+                }
+            });
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-gradient');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
